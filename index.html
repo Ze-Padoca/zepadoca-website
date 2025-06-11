@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zé Padoca - Seu Delivery de Padaria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .primary-bg {
+            background-color: #C76F43;
+        }
+
+        .primary-text {
+            color: #C76F43;
+        }
+
+        .secondary-bg {
+            background-color: #644131;
+        }
+
+        .secondary-text {
+            color: #644131;
+        }
+
+        .hero-bg-image {
+            background-image: url('https://placehold.co/1920x1080/FFF7F0/C76F43?text=Padaria+Aconchegante');
+            /* Imagem de fundo placeholder */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .app-screenshot {
+            border: 4px solid #644131;
+            /* Borda na cor secundária */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .cta-button {
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilos para o modal */
+        .modal {
+            display: none;
+            /* Escondido por padrão */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .modal-close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .modal-close-button:hover,
+        .modal-close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Estilo para o spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #C76F43;
+            /* Cor primária */
+            animation: spin 1s ease infinite;
+            margin: 20px auto;
+            display: none;
+            /* Escondido por padrão */
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-stone-50 text-gray-800">
+
+    <header class="primary-bg text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-3xl font-bold">
+                Zé Padoca
+            </a>
+            <nav class="space-x-4 md:space-x-6">
+                <a href="#features" class="hover:text-yellow-200 text-sm md:text-base">Funcionalidades</a>
+                <a href="#gemini-feature" class="hover:text-yellow-200 text-sm md:text-base">✨ Ideias para Festas</a>
+                <a href="#how-it-works" class="hover:text-yellow-200 text-sm md:text-base">Como Funciona</a>
+                <a href="#download"
+                    class="secondary-bg hover:bg-opacity-80 text-white font-semibold py-2 px-4 rounded-lg cta-button text-sm md:text-base">Baixe
+                    o App</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-bg-image text-white relative">
+        <div class="absolute inset-0 bg-black opacity-40"></div>
+        <div class="container mx-auto px-6 py-20 md:py-32 text-center relative z-10">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                Pão quentinho e delícias de padaria <br class="hidden md:inline"> na palma da sua mão!
+            </h1>
+            <p class="text-lg md:text-xl mb-10 max-w-2xl mx-auto">
+                Com Zé Padoca, você pede de suas padarias e confeitarias favoritas, personaliza seu pão francês e recebe
+                tudo no conforto de casa.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-12">
+                <a href="#"
+                    class="secondary-bg hover:bg-opacity-80 text-white font-bold py-3 px-8 rounded-lg text-lg cta-button w-full sm:w-auto">
+                    Baixar para Android
+                </a>
+                <a href="#"
+                    class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 px-8 rounded-lg text-lg cta-button w-full sm:w-auto">
+                    Baixar para iOS
+                </a>
+            </div>
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 md:space-x-12">
+                <div class="w-full md:w-1/3 transform transition-transform hover:scale-105">
+                    <p class="mb-2 text-lg font-semibold">App do Cliente</p>
+                    <img src="https://placehold.co/300x600/E2E8F0/644131?text=Print+App+Cliente"
+                        alt="Print do App do Cliente Zé Padoca" class="rounded-xl shadow-2xl mx-auto app-screenshot">
+                </div>
+                <div class="w-full md:w-1/3 transform transition-transform hover:scale-105">
+                    <p class="mb-2 text-lg font-semibold">App do Vendedor</p>
+                    <img src="https://placehold.co/300x600/E2E8F0/644131?text=Print+App+Vendedor"
+                        alt="Print do App do Vendedor Zé Padoca" class="rounded-xl shadow-2xl mx-auto app-screenshot">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 secondary-text">Tudo que você precisa, e mais um
+                pouco!</h2>
+            <p class="text-center text-gray-600 mb-12 md:mb-16 max-w-xl mx-auto">
+                Zé Padoca foi pensado para facilitar seu dia a dia e o dos seus estabelecimentos parceiros.
+            </p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-stone-50 p-6 rounded-xl shadow-lg feature-card">
+                    <div class="primary-bg text-white w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 secondary-text">Múltiplas Padarias, Um Pedido</h3>
+                    <p class="text-gray-600">Peça pães, bolos, doces e salgados de diversos estabelecimentos em uma
+                        única compra.</p>
+                </div>
+                <div class="bg-stone-50 p-6 rounded-xl shadow-lg feature-card">
+                    <div class="primary-bg text-white w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 0 1 1.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.108 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.11v1.093c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 0 1-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.78.93l-.15.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.149-.894c-.07-.424-.384-.764-.78-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 0 1-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.506-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.11v-1.094c0-.55.398-1.019.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.107-1.204l-.527-.738a1.125 1.125 0 0 1 .12-1.45l.773-.773a1.125 1.125 0 0 1 1.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.93l.15-.893Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 secondary-text">Pão Francês do Seu Jeito</h3>
+                    <p class="text-gray-600">Escolha o ponto de assado do seu pão francês: mais branquinho ou mais
+                        moreninho. Você decide!</p>
+                </div>
+                <div class="bg-stone-50 p-6 rounded-xl shadow-lg feature-card">
+                    <div class="primary-bg text-white w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A18.75 18.75 0 0 1 12 22.5c-2.786 0-5.433-.608-7.499-1.632Z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 secondary-text">Use Sem Login</h3>
+                    <p class="text-gray-600">Explore padarias e produtos sem a necessidade de criar uma conta. Simples e
+                        rápido!</p>
+                </div>
+                <div class="bg-stone-50 p-6 rounded-xl shadow-lg feature-card">
+                    <div class="primary-bg text-white w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14.25m-17.25 4.5H9m9-4.5H9m11.25-1.125V6.75A2.25 2.25 0 0 0 18 4.5H6A2.25 2.25 0 0 0 3.75 6.75v8.625M16.5 12H8.25" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 secondary-text">Delivery Completo</h3>
+                    <p class="text-gray-600">Todas as funcionalidades essenciais de um app de delivery, como rastreio,
+                        pagamento online e mais.</p>
+                </div>
+                <div class="bg-stone-50 p-6 rounded-xl shadow-lg feature-card lg:col-span-1">
+                    <div class="primary-bg text-white w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25M3 18.75A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5M12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 secondary-text">Agende Suas Encomendas</h3>
+                    <p class="text-gray-600">Planeje seus eventos! Faça encomendas e agende a data de entrega ou
+                        retirada pelo app com antecedência.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gemini-feature" class="py-16 md:py-24 bg-stone-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 primary-text">✨ Planeje sua Festa com Zé Padoca!
+            </h2>
+            <p class="text-center text-gray-600 mb-10 md:mb-12 max-w-xl mx-auto">
+                Não sabe o que pedir? Deixe nossa inteligência artificial te ajudar a montar o cardápio perfeito para
+                seu evento.
+            </p>
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-xl">
+                <div class="space-y-6">
+                    <div>
+                        <label for="eventType" class="block text-sm font-medium text-gray-700 mb-1">Tipo de
+                            Evento:</label>
+                        <input type="text" id="eventType" name="eventType"
+                            placeholder="Ex: Aniversário, Reunião de amigos"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-C76F43 focus:border-C76F43 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="guestCount" class="block text-sm font-medium text-gray-700 mb-1">Número de
+                            Convidados:</label>
+                        <input type="number" id="guestCount" name="guestCount" placeholder="Ex: 10" min="1"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-C76F43 focus:border-C76F43 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="preferences" class="block text-sm font-medium text-gray-700 mb-1">Preferências
+                            (opcional):</label>
+                        <textarea id="preferences" name="preferences" rows="3"
+                            placeholder="Ex: Mais doces, opções veganas, sem glúten"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-C76F43 focus:border-C76F43 sm:text-sm"></textarea>
+                    </div>
+                    <div>
+                        <button id="generateIdeasButton"
+                            class="w-full secondary-bg hover:bg-opacity-80 text-white font-semibold py-3 px-6 rounded-lg cta-button flex items-center justify-center">
+                            <span class="mr-2">✨ Gerar Sugestões de Cardápio</span>
+                            <svg id="buttonSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="spinner" class="spinner"></div>
+                <div id="ideasResult" class="mt-8 p-6 bg-stone-50 rounded-lg shadow hidden min-h-[100px]">
+                    <h4 class="text-lg font-semibold primary-text mb-2">Sugestões para seu evento:</h4>
+                    <p id="geminiResponse" class="text-gray-700 whitespace-pre-wrap"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-16 primary-text">Peça em 3 passos simples!
+            </h2>
+            <div class="flex flex-col md:flex-row justify-around items-start space-y-10 md:space-y-0 md:space-x-8">
+                <div class="text-center w-full md:w-1/3">
+                    <div
+                        class="secondary-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                        1</div>
+                    <h3 class="text-xl font-semibold mb-2 secondary-text">Explore e Escolha</h3>
+                    <p class="text-gray-600 px-4">Navegue pelas padarias parceiras, veja os cardápios e adicione seus
+                        produtos favoritos ao carrinho.</p>
+                </div>
+                <div class="text-center w-full md:w-1/3">
+                    <div
+                        class="secondary-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                        2</div>
+                    <h3 class="text-xl font-semibold mb-2 secondary-text">Personalize e Pague</h3>
+                    <p class="text-gray-600 px-4">Ajuste o ponto do seu pão, confirme seu pedido e pague com segurança
+                        pelo app.</p>
+                </div>
+                <div class="text-center w-full md:w-1/3">
+                    <div
+                        class="secondary-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                        3</div>
+                    <h3 class="text-xl font-semibold mb-2 secondary-text">Receba em Casa</h3>
+                    <p class="text-gray-600 px-4">Acompanhe seu pedido e receba suas delícias fresquinhas onde estiver.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="py-16 md:py-24 primary-bg text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Pronto para experimentar o Zé Padoca?</h2>
+            <p class="text-lg md:text-xl mb-10 max-w-xl mx-auto">Baixe agora nosso aplicativo e transforme a maneira
+                como você compra produtos de padaria!</p>
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#"
+                    class="bg-white hover:bg-gray-100 secondary-text font-bold py-4 px-10 rounded-lg text-lg cta-button flex items-center justify-center w-full sm:w-auto">
+                    <img src="https://placehold.co/30x30/644131/FFFFFF?text=G" alt="Google Play" class="w-6 h-6 mr-2">
+                    Disponível no Google Play
+                </a>
+                <a href="#"
+                    class="bg-white hover:bg-gray-100 secondary-text font-bold py-4 px-10 rounded-lg text-lg cta-button flex items-center justify-center w-full sm:w-auto">
+                    <img src="https://placehold.co/30x30/644131/FFFFFF?text=A" alt="App Store" class="w-6 h-6 mr-2">
+                    Baixar na App Store
+                </a>
+            </div>
+            <div class="mt-12">
+                <p class="text-lg">É dono de uma padaria ou confeitaria?</p>
+                <a href="#" class="text-yellow-200 hover:underline font-semibold">Seja um parceiro Zé Padoca e aumente
+                    suas vendas!</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="secondary-bg text-white py-10">
+        <div class="container mx-auto px-6 text-center">
+            <p class="mb-2">Zé Padoca &copy; <span id="currentYear"></span>. Todos os direitos reservados.</p>
+            <p class="text-sm">
+                <a href="#" class="hover:text-yellow-200">Política de Privacidade</a> |
+                <a href="#" class="hover:text-yellow-200">Termos de Uso</a> |
+                <a href="#" class="hover:text-yellow-200">Contato</a>
+            </p>
+        </div>
+    </footer>
+
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close-button" onclick="closeModal()">&times;</span>
+            <p id="modalMessageText"></p>
+            <button onclick="closeModal()"
+                class="mt-4 primary-bg hover:bg-opacity-80 text-white font-semibold py-2 px-4 rounded-lg">OK</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Elementos do DOM para a funcionalidade Gemini
+        const eventTypeInput = document.getElementById('eventType');
+        const guestCountInput = document.getElementById('guestCount');
+        const preferencesInput = document.getElementById('preferences');
+        const generateIdeasButton = document.getElementById('generateIdeasButton');
+        const ideasResultDiv = document.getElementById('ideasResult');
+        const geminiResponseP = document.getElementById('geminiResponse');
+        const mainSpinner = document.getElementById('spinner'); // Spinner principal da seção
+        const buttonSpinner = document.getElementById('buttonSpinner'); // Spinner do botão
+
+        // Modal
+        const messageModal = document.getElementById('messageModal');
+        const modalMessageText = document.getElementById('modalMessageText');
+
+        function showModal(message) {
+            modalMessageText.textContent = message;
+            messageModal.style.display = 'block';
+        }
+
+        function closeModal() {
+            messageModal.style.display = 'none';
+        }
+
+        // Fecha o modal se o usuário clicar fora dele
+        window.onclick = function (event) {
+            if (event.target == messageModal) {
+                closeModal();
+            }
+        }
+
+        generateIdeasButton.addEventListener('click', async () => {
+            const eventType = eventTypeInput.value.trim();
+            const guestCount = guestCountInput.value.trim();
+            const preferences = preferencesInput.value.trim();
+
+            if (!eventType || !guestCount) {
+                showModal("Por favor, preencha o tipo de evento e o número de convidados.");
+                return;
+            }
+
+            // Mostrar spinners e desabilitar botão
+            mainSpinner.style.display = 'block';
+            buttonSpinner.classList.remove('hidden');
+            generateIdeasButton.disabled = true;
+            ideasResultDiv.classList.add('hidden'); // Esconder resultados anteriores
+            geminiResponseP.textContent = ''; // Limpar texto anterior
+
+            const prompt = `Você é um assistente de planejamento de festas para uma padaria delivery chamada Zé Padoca.
+Um cliente está planejando um(a) "${eventType}" para ${guestCount} pessoas.
+As preferências do cliente são: "${preferences || 'Nenhuma preferência específica'}".
+Sugira uma lista de itens de padaria (bolos, doces diversos, salgados variados, pães especiais, bebidas como sucos naturais ou refrigerantes) e quantidades aproximadas que seriam adequadas para este evento.
+Apresente as sugestões de forma organizada, amigável e apetitosa, talvez com categorias.
+No final, mencione que todos os itens sugeridos podem ser encontrados e encomendados através do aplicativo Zé Padoca.
+Seja criativo e útil!`;
+
+            const apiKey = ""; // DEIXE EM BRANCO. A CHAVE SERÁ FORNECIDA AUTOMATICAMENTE NO AMBIENTE DE EXECUÇÃO.
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error("Erro da API Gemini:", errorData);
+                    showModal(`Erro ao gerar sugestões: ${errorData.error?.message || response.statusText}. Tente novamente mais tarde.`);
+                    return;
+                }
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    geminiResponseP.textContent = text;
+                    ideasResultDiv.classList.remove('hidden');
+                } else {
+                    console.error("Resposta inesperada da API Gemini:", result);
+                    showModal("Não foi possível obter sugestões no momento. A resposta da IA estava vazia ou malformada.");
+                }
+
+            } catch (error) {
+                console.error("Erro ao chamar a API Gemini:", error);
+                showModal("Ocorreu um erro de conexão ao tentar gerar as sugestões. Verifique sua internet e tente novamente.");
+            } finally {
+                // Esconder spinners e reabilitar botão
+                mainSpinner.style.display = 'none';
+                buttonSpinner.classList.add('hidden');
+                generateIdeasButton.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+
+</html>
