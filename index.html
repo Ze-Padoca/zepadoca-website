@@ -1,491 +1,2093 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zé Padoca - Seu Delivery de Padaria</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Zé Padoca - Sua Padaria Favorita no App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #D4A574;
+            --primary-dark: #B8956A;
+            --secondary: #8B4513;
+            --accent: #F5E6D3;
+            --dark: #2C1810;
+            --cream: #FFF8F0;
+            --white: #FFFFFF;
+            --gradient-warm: linear-gradient(135deg, #D4A574 0%, #B8956A 50%, #8B4513 100%);
+            --gradient-hero: linear-gradient(180deg, rgba(44,24,16,0.9) 0%, rgba(44,24,16,0.7) 50%, rgba(44,24,16,0.95) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+            overflow-x: hidden;
         }
 
-        .primary-bg {
-            background-color: #C76F43;
+        h1, h2, h3, h4 {
+            font-family: 'Fraunces', serif;
         }
 
-        .primary-text {
-            color: #C76F43;
+        /* Custom Cursor */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s;
         }
 
-        .secondary-bg {
-            background-color: #644131;
+        .cursor-ring {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.15s, width 0.2s, height 0.2s;
         }
 
-        .secondary-text {
-            color: #644131;
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .hero-bg-image {
-            background-image: url('https://placehold.co/1920x1080/FFF7F0/C76F43?text=Padaria+Aconchegante');
-            /* Imagem de fundo placeholder */
-            background-size: cover;
-            background-position: center;
+        nav.scrolled {
+            background: rgba(255, 248, 240, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(139, 69, 19, 0.1);
+            padding: 1rem 5%;
         }
 
-        .app-screenshot {
-            border: 4px solid #644131;
-            /* Borda na cor secundária */
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--white);
+            transition: color 0.3s;
         }
 
-        .cta-button {
-            transition: all 0.3s ease;
+        nav.scrolled .logo {
+            color: var(--dark);
         }
 
-        .cta-button:hover {
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-warm);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4);
+        }
+
+        .logo-text {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        nav.scrolled .nav-links a {
+            color: var(--dark);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--gradient-warm);
+            color: var(--white) !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 25px rgba(212, 165, 116, 0.5);
+        }
+
+        .nav-cta::after {
+            display: none !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900"><rect fill="%232C1810"/><circle cx="200" cy="150" r="300" fill="%233D251A" opacity="0.5"/><circle cx="1300" cy="700" r="400" fill="%233D251A" opacity="0.4"/><circle cx="700" cy="400" r="200" fill="%234A2E1F" opacity="0.3"/></svg>') center/cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-hero);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(212, 165, 116, 0.2);
+            border: 1px solid rgba(212, 165, 116, 0.4);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.2s forwards;
+        }
+
+        .hero-badge::before {
+            content: '🥐';
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.4s forwards;
+        }
+
+        .hero h1 span {
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.6s forwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.8s forwards;
+        }
+
+        .store-button {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--white);
+            padding: 0.875rem 1.5rem;
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--dark);
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .store-button:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .store-button svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .store-button .store-info {
+            text-align: left;
+        }
+
+        .store-button .store-info small {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            display: block;
+        }
+
+        .store-button .store-info strong {
+            font-size: 1rem;
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .float-item {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.15;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .float-item:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; }
+        .float-item:nth-child(2) { top: 25%; right: 15%; animation-delay: 1s; }
+        .float-item:nth-child(3) { bottom: 30%; left: 8%; animation-delay: 2s; }
+        .float-item:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 1.5s; }
+        .float-item:nth-child(5) { top: 50%; left: 25%; animation-delay: 0.5s; }
+        .float-item:nth-child(6) { top: 40%; right: 25%; animation-delay: 2.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Phone Mockup */
+        .hero-phones {
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: -30px;
+            z-index: 3;
+        }
+
+        .phone-mockup {
+            width: 280px;
+            height: 580px;
+            background: var(--dark);
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            animation: phoneSlide 1s 1s forwards;
+        }
+
+        .phone-mockup:first-child {
+            transform: rotate(-8deg) translateY(40px);
+        }
+
+        .phone-mockup:last-child {
+            transform: rotate(8deg) translateY(40px);
+            animation-delay: 1.2s;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-warm);
+            border-radius: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+        }
+
+        .phone-screen .app-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes phoneSlide {
+            to { opacity: 1; }
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--white);
+            opacity: 0.7;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .scroll-mouse {
+            width: 24px;
+            height: 40px;
+            border: 2px solid var(--white);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .scroll-mouse::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 8px;
+            background: var(--white);
+            border-radius: 2px;
+            animation: scrollWheel 1.5s infinite;
+        }
+
+        @keyframes scrollWheel {
+            0% { opacity: 1; top: 8px; }
+            100% { opacity: 0; top: 20px; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 5% 6rem;
+            background: var(--cream);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 5rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: rgba(44, 24, 16, 0.7);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .feature-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: var(--white);
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .feature-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(139, 69, 19, 0.15);
         }
 
-        /* Estilos para o modal */
-        .modal {
-            display: none;
-            /* Escondido por padrão */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
+        .feature-card::before {
+            content: '';
+            position: absolute;
             top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-warm);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--accent);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover .feature-icon {
+            background: var(--gradient-warm);
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: rgba(44, 24, 16, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Customer Section */
+        .customer-section {
+            padding: 8rem 5%;
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .customer-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .customer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .customer-text {
+            color: var(--white);
+        }
+
+        .customer-text .section-tag {
+            background: rgba(212, 165, 116, 0.2);
+            color: var(--primary);
+        }
+
+        .customer-text h2 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .customer-text h2 span {
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .customer-text > p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .benefit-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.5s;
+        }
+
+        .benefit-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .benefit-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-warm);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .benefit-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+        }
+
+        .benefit-content p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+        }
+
+        .customer-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-showcase {
+            position: relative;
+            width: 300px;
+            height: 620px;
+        }
+
+        .app-phone {
             width: 100%;
             height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
+            background: #1a1a1a;
+            border-radius: 45px;
+            padding: 10px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
         }
 
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
+        .app-phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--accent) 100%);
+            border-radius: 38px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-header {
+            background: var(--gradient-warm);
+            padding: 3rem 1.5rem 1.5rem;
+            color: var(--white);
+        }
+
+        .app-header h5 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .app-header small {
+            opacity: 0.8;
+            font-size: 0.85rem;
+        }
+
+        .app-categories {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            overflow-x: hidden;
+        }
+
+        .app-category {
+            background: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .app-products {
+            padding: 0 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .app-product {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .product-img {
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-info h6 {
+            font-size: 0.9rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .product-info small {
+            color: rgba(44, 24, 16, 0.6);
+            font-size: 0.75rem;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .floating-cards {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .floating-card {
+            position: absolute;
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: floatCard 4s ease-in-out infinite;
+        }
+
+        .floating-card:nth-child(1) {
+            top: 5%;
+            right: -60px;
+            animation-delay: 0s;
+        }
+
+        .floating-card:nth-child(2) {
+            bottom: 20%;
+            left: -80px;
+            animation-delay: 1s;
+        }
+
+        .floating-card:nth-child(3) {
+            top: 35%;
+            left: -100px;
+            animation-delay: 2s;
+        }
+
+        .floating-card-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .floating-card-text small {
+            font-size: 0.7rem;
+            color: rgba(44, 24, 16, 0.6);
+        }
+
+        .floating-card-text strong {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--dark);
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Seller Section */
+        .seller-section {
+            padding: 8rem 5%;
+            background: var(--cream);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .seller-section::before {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .seller-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .seller-visual {
+            position: relative;
+            order: -1;
+        }
+
+        .dashboard-mockup {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 30px 60px rgba(139, 69, 19, 0.15);
+            position: relative;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(44, 24, 16, 0.1);
+        }
+
+        .dashboard-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dashboard-logo-icon {
+            width: 35px;
+            height: 35px;
+            background: var(--gradient-warm);
             border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .dashboard-logo span {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+        }
+
+        .dashboard-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #22c55e;
+        }
+
+        .dashboard-status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--accent);
+            padding: 1rem;
+            border-radius: 12px;
             text-align: center;
         }
 
-        .modal-close-button {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
+        .stat-card .icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
         }
 
-        .modal-close-button:hover,
-        .modal-close-button:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            font-family: 'Fraunces', serif;
         }
 
-        /* Estilo para o spinner */
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
+        .stat-card .label {
+            font-size: 0.75rem;
+            color: rgba(44, 24, 16, 0.6);
+        }
+
+        .dashboard-orders {
+            background: var(--cream);
+            border-radius: 16px;
+            padding: 1rem;
+        }
+
+        .orders-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .orders-header h6 {
+            font-size: 0.9rem;
+        }
+
+        .orders-header span {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .order-item {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .order-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .order-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .order-avatar {
             width: 36px;
             height: 36px;
+            background: var(--gradient-warm);
             border-radius: 50%;
-            border-left-color: #C76F43;
-            /* Cor primária */
-            animation: spin 1s ease infinite;
-            margin: 20px auto;
-            display: none;
-            /* Escondido por padrão */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
+        .order-details small {
+            display: block;
+            font-size: 0.7rem;
+            color: rgba(44, 24, 16, 0.5);
+        }
+
+        .order-details span {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .order-status {
+            font-size: 0.75rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .order-status.pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .order-status.ready {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .seller-text .section-tag {
+            background: var(--accent);
+        }
+
+        .seller-text h2 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: var(--dark);
+        }
+
+        .seller-text h2 span {
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .seller-text > p {
+            color: rgba(44, 24, 16, 0.7);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .seller-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .seller-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s;
+        }
+
+        .seller-feature.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .seller-feature-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .seller-feature h4 {
+            font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            color: var(--dark);
+        }
+
+        .seller-feature p {
+            font-size: 0.85rem;
+            color: rgba(44, 24, 16, 0.6);
+        }
+
+        /* How it Works */
+        .how-it-works {
+            padding: 8rem 5%;
+            background: linear-gradient(180deg, var(--accent) 0%, var(--cream) 100%);
+        }
+
+        .steps-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 15%;
+            right: 15%;
+            height: 3px;
+            background: var(--primary);
+            opacity: 0.3;
+        }
+
+        .step {
+            text-align: center;
+            flex: 1;
+            max-width: 280px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s;
+        }
+
+        .step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .step-number {
+            width: 120px;
+            height: 120px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(139, 69, 19, 0.15);
+        }
+
+        .step-number::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: var(--gradient-warm);
+            z-index: -1;
+        }
+
+        .step-number span {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .step h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .step p {
+            color: rgba(44, 24, 16, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 8rem 5%;
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1000px;
+            height: 1000px;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-content h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .cta-content h2 span {
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-content p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            text-decoration: none;
+            color: var(--dark);
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .cta-button-text {
+            text-align: left;
+        }
+
+        .cta-button-text small {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            display: block;
+        }
+
+        .cta-button-text strong {
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a0f0a;
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-warm);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .footer-logo span {
+            font-family: 'Fraunces', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .footer-column h4 {
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-column a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-social a:hover {
+            background: var(--gradient-warm);
+            transform: translateY(-3px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 2px;
+            background: var(--white);
+            transition: all 0.3s;
+        }
+
+        nav.scrolled .mobile-menu-btn span {
+            background: var(--dark);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .customer-content,
+            .seller-content {
+                grid-template-columns: 1fr;
+                gap: 4rem;
             }
 
-            100% {
-                transform: rotate(360deg);
+            .seller-visual {
+                order: 0;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-phones {
+                display: none;
+            }
+
+            .steps-container {
+                flex-direction: column;
+                gap: 3rem;
+                align-items: center;
+            }
+
+            .steps-container::before {
+                display: none;
+            }
+
+            .seller-features {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .floating-cards {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .store-button {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
             }
         }
     </style>
 </head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
 
-<body class="bg-stone-50 text-gray-800">
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="logo">
+            <div class="logo-icon">🥖</div>
+            <span class="logo-text">Zé Padoca</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#features">Funcionalidades</a></li>
+            <li><a href="#cliente">Para Clientes</a></li>
+            <li><a href="#vendedor">Para Vendedores</a></li>
+            <li><a href="#como-funciona">Como Funciona</a></li>
+            <li><a href="#download" class="nav-cta">Baixar App</a></li>
+        </ul>
+        <button class="mobile-menu-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
 
-    <header class="primary-bg text-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-3xl font-bold">
-                Zé Padoca
-            </a>
-            <nav class="space-x-4 md:space-x-6">
-                <a href="#features" class="hover:text-yellow-200 text-sm md:text-base">Funcionalidades</a>
-                <a href="#gemini-feature" class="hover:text-yellow-200 text-sm md:text-base">✨ Ideias para Festas</a>
-                <a href="#how-it-works" class="hover:text-yellow-200 text-sm md:text-base">Como Funciona</a>
-                <a href="#download"
-                    class="secondary-bg hover:bg-opacity-80 text-white font-semibold py-2 px-4 rounded-lg cta-button text-sm md:text-base">Baixe
-                    o App</a>
-            </nav>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="floating-elements">
+            <span class="float-item">🥐</span>
+            <span class="float-item">🍞</span>
+            <span class="float-item">🥖</span>
+            <span class="float-item">🧁</span>
+            <span class="float-item">🥯</span>
+            <span class="float-item">🍩</span>
         </div>
-    </header>
 
-    <section class="hero-bg-image text-white relative">
-        <div class="absolute inset-0 bg-black opacity-40"></div>
-        <div class="container mx-auto px-6 py-20 md:py-32 text-center relative z-10">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                Pão quentinho e delícias de padaria <br class="hidden md:inline"> na palma da sua mão!
-            </h1>
-            <p class="text-lg md:text-xl mb-10 max-w-2xl mx-auto">
-                Com Zé Padoca, você pede de suas padarias e confeitarias favoritas, personaliza seu pão francês e recebe
-                tudo no conforto de casa.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-12">
-                <a href="#"
-                    class="secondary-bg hover:bg-opacity-80 text-white font-bold py-3 px-8 rounded-lg text-lg cta-button w-full sm:w-auto">
-                    Baixar para Android
+        <div class="hero-content">
+            <div class="hero-badge">Novidade em Delivery</div>
+            <h1>Sua padaria favorita <span>na palma da mão</span></h1>
+            <p class="hero-subtitle">Pães fresquinhos, doces irresistíveis e muito mais. Peça pronta-entrega, encomende ou compre por peso — tudo pelo app!</p>
+            <div class="hero-buttons">
+                <a href="#" class="store-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                    <div class="store-info">
+                        <small>Baixar na</small>
+                        <strong>App Store</strong>
+                    </div>
                 </a>
-                <a href="#"
-                    class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 px-8 rounded-lg text-lg cta-button w-full sm:w-auto">
-                    Baixar para iOS
-                </a>
-            </div>
-            <div class="flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 md:space-x-12">
-                <div class="w-full md:w-1/3 transform transition-transform hover:scale-105">
-                    <p class="mb-2 text-lg font-semibold">App do Cliente</p>
-                    <img src="https://placehold.co/300x600/E2E8F0/644131?text=Print+App+Cliente"
-                        alt="Print do App do Cliente Zé Padoca" class="rounded-xl shadow-2xl mx-auto app-screenshot">
-                </div>
-                <div class="w-full md:w-1/3 transform transition-transform hover:scale-105">
-                    <p class="mb-2 text-lg font-semibold">App do Vendedor</p>
-                    <img src="https://placehold.co/300x600/E2E8F0/644131?text=Print+App+Vendedor"
-                        alt="Print do App do Vendedor Zé Padoca" class="rounded-xl shadow-2xl mx-auto app-screenshot">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="features" class="py-16 md:py-24 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 secondary-text">Tudo que você precisa, e mais um
-                pouco!</h2>
-            <p class="text-center text-gray-600 mb-12 md:mb-16 max-w-xl mx-auto">
-                Zé Padoca foi pensado para facilitar seu dia a dia e o dos seus estabelecimentos parceiros.
-            </p>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-stone-50 p-6 rounded-xl shadow-lg feature-card">
-                    <div class="primary-bg text-white w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
-                        </svg>
+                <a href="#" class="store-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+                    </svg>
+                    <div class="store-info">
+                        <small>Disponível no</small>
+                        <strong>Google Play</strong>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 secondary-text">Múltiplas Padarias, Um Pedido</h3>
-                    <p class="text-gray-600">Peça pães, bolos, doces e salgados de diversos estabelecimentos em uma
-                        única compra.</p>
-                </div>
-                <div class="bg-stone-50 p-6 rounded-xl shadow-lg feature-card">
-                    <div class="primary-bg text-white w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 0 1 1.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.108 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.11v1.093c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 0 1-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.78.93l-.15.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.149-.894c-.07-.424-.384-.764-.78-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 0 1-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.506-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.11v-1.094c0-.55.398-1.019.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.107-1.204l-.527-.738a1.125 1.125 0 0 1 .12-1.45l.773-.773a1.125 1.125 0 0 1 1.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.93l.15-.893Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2 secondary-text">Pão Francês do Seu Jeito</h3>
-                    <p class="text-gray-600">Escolha o ponto de assado do seu pão francês: mais branquinho ou mais
-                        moreninho. Você decide!</p>
-                </div>
-                <div class="bg-stone-50 p-6 rounded-xl shadow-lg feature-card">
-                    <div class="primary-bg text-white w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A18.75 18.75 0 0 1 12 22.5c-2.786 0-5.433-.608-7.499-1.632Z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2 secondary-text">Use Sem Login</h3>
-                    <p class="text-gray-600">Explore padarias e produtos sem a necessidade de criar uma conta. Simples e
-                        rápido!</p>
-                </div>
-                <div class="bg-stone-50 p-6 rounded-xl shadow-lg feature-card">
-                    <div class="primary-bg text-white w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14.25m-17.25 4.5H9m9-4.5H9m11.25-1.125V6.75A2.25 2.25 0 0 0 18 4.5H6A2.25 2.25 0 0 0 3.75 6.75v8.625M16.5 12H8.25" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2 secondary-text">Delivery Completo</h3>
-                    <p class="text-gray-600">Todas as funcionalidades essenciais de um app de delivery, como rastreio,
-                        pagamento online e mais.</p>
-                </div>
-                <div class="bg-stone-50 p-6 rounded-xl shadow-lg feature-card lg:col-span-1">
-                    <div class="primary-bg text-white w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25M3 18.75A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5M12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2 secondary-text">Agende Suas Encomendas</h3>
-                    <p class="text-gray-600">Planeje seus eventos! Faça encomendas e agende a data de entrega ou
-                        retirada pelo app com antecedência.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="gemini-feature" class="py-16 md:py-24 bg-stone-100">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 primary-text">✨ Planeje sua Festa com Zé Padoca!
-            </h2>
-            <p class="text-center text-gray-600 mb-10 md:mb-12 max-w-xl mx-auto">
-                Não sabe o que pedir? Deixe nossa inteligência artificial te ajudar a montar o cardápio perfeito para
-                seu evento.
-            </p>
-            <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-xl">
-                <div class="space-y-6">
-                    <div>
-                        <label for="eventType" class="block text-sm font-medium text-gray-700 mb-1">Tipo de
-                            Evento:</label>
-                        <input type="text" id="eventType" name="eventType"
-                            placeholder="Ex: Aniversário, Reunião de amigos"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-C76F43 focus:border-C76F43 sm:text-sm">
-                    </div>
-                    <div>
-                        <label for="guestCount" class="block text-sm font-medium text-gray-700 mb-1">Número de
-                            Convidados:</label>
-                        <input type="number" id="guestCount" name="guestCount" placeholder="Ex: 10" min="1"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-C76F43 focus:border-C76F43 sm:text-sm">
-                    </div>
-                    <div>
-                        <label for="preferences" class="block text-sm font-medium text-gray-700 mb-1">Preferências
-                            (opcional):</label>
-                        <textarea id="preferences" name="preferences" rows="3"
-                            placeholder="Ex: Mais doces, opções veganas, sem glúten"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-C76F43 focus:border-C76F43 sm:text-sm"></textarea>
-                    </div>
-                    <div>
-                        <button id="generateIdeasButton"
-                            class="w-full secondary-bg hover:bg-opacity-80 text-white font-semibold py-3 px-6 rounded-lg cta-button flex items-center justify-center">
-                            <span class="mr-2">✨ Gerar Sugestões de Cardápio</span>
-                            <svg id="buttonSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                    stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                </path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div id="spinner" class="spinner"></div>
-                <div id="ideasResult" class="mt-8 p-6 bg-stone-50 rounded-lg shadow hidden min-h-[100px]">
-                    <h4 class="text-lg font-semibold primary-text mb-2">Sugestões para seu evento:</h4>
-                    <p id="geminiResponse" class="text-gray-700 whitespace-pre-wrap"></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="how-it-works" class="py-16 md:py-24 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-16 primary-text">Peça em 3 passos simples!
-            </h2>
-            <div class="flex flex-col md:flex-row justify-around items-start space-y-10 md:space-y-0 md:space-x-8">
-                <div class="text-center w-full md:w-1/3">
-                    <div
-                        class="secondary-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
-                        1</div>
-                    <h3 class="text-xl font-semibold mb-2 secondary-text">Explore e Escolha</h3>
-                    <p class="text-gray-600 px-4">Navegue pelas padarias parceiras, veja os cardápios e adicione seus
-                        produtos favoritos ao carrinho.</p>
-                </div>
-                <div class="text-center w-full md:w-1/3">
-                    <div
-                        class="secondary-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
-                        2</div>
-                    <h3 class="text-xl font-semibold mb-2 secondary-text">Personalize e Pague</h3>
-                    <p class="text-gray-600 px-4">Ajuste o ponto do seu pão, confirme seu pedido e pague com segurança
-                        pelo app.</p>
-                </div>
-                <div class="text-center w-full md:w-1/3">
-                    <div
-                        class="secondary-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
-                        3</div>
-                    <h3 class="text-xl font-semibold mb-2 secondary-text">Receba em Casa</h3>
-                    <p class="text-gray-600 px-4">Acompanhe seu pedido e receba suas delícias fresquinhas onde estiver.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="download" class="py-16 md:py-24 primary-bg text-white">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">Pronto para experimentar o Zé Padoca?</h2>
-            <p class="text-lg md:text-xl mb-10 max-w-xl mx-auto">Baixe agora nosso aplicativo e transforme a maneira
-                como você compra produtos de padaria!</p>
-            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="#"
-                    class="bg-white hover:bg-gray-100 secondary-text font-bold py-4 px-10 rounded-lg text-lg cta-button flex items-center justify-center w-full sm:w-auto">
-                    <img src="https://placehold.co/30x30/644131/FFFFFF?text=G" alt="Google Play" class="w-6 h-6 mr-2">
-                    Disponível no Google Play
-                </a>
-                <a href="#"
-                    class="bg-white hover:bg-gray-100 secondary-text font-bold py-4 px-10 rounded-lg text-lg cta-button flex items-center justify-center w-full sm:w-auto">
-                    <img src="https://placehold.co/30x30/644131/FFFFFF?text=A" alt="App Store" class="w-6 h-6 mr-2">
-                    Baixar na App Store
                 </a>
             </div>
-            <div class="mt-12">
-                <p class="text-lg">É dono de uma padaria ou confeitaria?</p>
-                <a href="#" class="text-yellow-200 hover:underline font-semibold">Seja um parceiro Zé Padoca e aumente
-                    suas vendas!</a>
+        </div>
+
+        <div class="hero-phones">
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <span class="app-icon">🛒</span>
+                    <span>App Cliente</span>
+                </div>
+            </div>
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <span class="app-icon">📊</span>
+                    <span>App Vendedor</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="scroll-mouse"></div>
+            <span>Role para explorar</span>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <span class="section-tag">✨ Funcionalidades</span>
+            <h2>Tudo que você precisa em um só app</h2>
+            <p>Desenvolvido para tornar sua experiência com padarias mais prática, rápida e deliciosa</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Pronta-Entrega</h3>
+                <p>Produtos fresquinhos prontos para sair. Peça e receba em minutos na sua porta.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>Encomendas</h3>
+                <p>Planeje com antecedência. Encomende bolos, salgados e produtos especiais.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚖️</div>
+                <h3>Compra por Peso</h3>
+                <p>Escolha a quantidade exata que deseja. Pague apenas pelo que consumir.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📍</div>
+                <h3>Padarias Próximas</h3>
+                <p>Encontre as melhores padarias perto de você com geolocalização inteligente.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <h3>Notificações</h3>
+                <p>Acompanhe seu pedido em tempo real. Saiba quando está pronto e a caminho.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3>Avaliações</h3>
+                <p>Veja opiniões de outros clientes e avalie suas experiências.</p>
             </div>
         </div>
     </section>
 
-    <footer class="secondary-bg text-white py-10">
-        <div class="container mx-auto px-6 text-center">
-            <p class="mb-2">Zé Padoca &copy; <span id="currentYear"></span>. Todos os direitos reservados.</p>
-            <p class="text-sm">
-                <a href="#" class="hover:text-yellow-200">Política de Privacidade</a> |
-                <a href="#" class="hover:text-yellow-200">Termos de Uso</a> |
-                <a href="#" class="hover:text-yellow-200">Contato</a>
-            </p>
+    <!-- Customer Section -->
+    <section class="customer-section" id="cliente">
+        <div class="customer-content">
+            <div class="customer-text">
+                <span class="section-tag">👤 Para Clientes</span>
+                <h2>A experiência <span>perfeita</span> de compra</h2>
+                <p>Navegue por catálogos completos, compare preços, faça pedidos personalizados e acompanhe tudo em tempo real.</p>
+                
+                <div class="benefit-list">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🏪</div>
+                        <div class="benefit-content">
+                            <h4>Catálogo Completo</h4>
+                            <p>Explore todos os produtos disponíveis com fotos e descrições</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🚀</div>
+                        <div class="benefit-content">
+                            <h4>Pedido Rápido</h4>
+                            <p>Em poucos toques, seu pedido está confirmado</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📱</div>
+                        <div class="benefit-content">
+                            <h4>Rastreio em Tempo Real</h4>
+                            <p>Acompanhe cada etapa do seu pedido até a entrega</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">💳</div>
+                        <div class="benefit-content">
+                            <h4>Pagamento Flexível</h4>
+                            <p>Múltiplas formas de pagamento para sua conveniência</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="customer-visual">
+                <div class="app-showcase">
+                    <div class="app-phone">
+                        <div class="app-phone-screen">
+                            <div class="app-header">
+                                <h5>Olá, Maria! 👋</h5>
+                                <small>O que vamos pedir hoje?</small>
+                            </div>
+                            <div class="app-categories">
+                                <span class="app-category">🥐 Pães</span>
+                                <span class="app-category">🍰 Bolos</span>
+                                <span class="app-category">🥧 Salgados</span>
+                            </div>
+                            <div class="app-products">
+                                <div class="app-product">
+                                    <div class="product-img">🥖</div>
+                                    <div class="product-info">
+                                        <h6>Pão Francês</h6>
+                                        <small>Quentinho • 50g</small>
+                                    </div>
+                                    <span class="product-price">R$ 0,80</span>
+                                </div>
+                                <div class="app-product">
+                                    <div class="product-img">🥐</div>
+                                    <div class="product-info">
+                                        <h6>Croissant</h6>
+                                        <small>Manteiga • 80g</small>
+                                    </div>
+                                    <span class="product-price">R$ 6,50</span>
+                                </div>
+                                <div class="app-product">
+                                    <div class="product-img">🧁</div>
+                                    <div class="product-info">
+                                        <h6>Cupcake</h6>
+                                        <small>Chocolate • 100g</small>
+                                    </div>
+                                    <span class="product-price">R$ 8,00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="floating-cards">
+                        <div class="floating-card">
+                            <div class="floating-card-icon">✅</div>
+                            <div class="floating-card-text">
+                                <small>Status</small>
+                                <strong>Pedido Confirmado!</strong>
+                            </div>
+                        </div>
+                        <div class="floating-card">
+                            <div class="floating-card-icon">🛵</div>
+                            <div class="floating-card-text">
+                                <small>Entrega</small>
+                                <strong>15-20 min</strong>
+                            </div>
+                        </div>
+                        <div class="floating-card">
+                            <div class="floating-card-icon">⭐</div>
+                            <div class="floating-card-text">
+                                <small>Avaliação</small>
+                                <strong>4.9 (2.3k)</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seller Section -->
+    <section class="seller-section" id="vendedor">
+        <div class="seller-content">
+            <div class="seller-visual">
+                <div class="dashboard-mockup">
+                    <div class="dashboard-header">
+                        <div class="dashboard-logo">
+                            <div class="dashboard-logo-icon">🥖</div>
+                            <span>Zé Padoca Pro</span>
+                        </div>
+                        <div class="dashboard-status">Loja Aberta</div>
+                    </div>
+                    
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="icon">📦</div>
+                            <div class="value">47</div>
+                            <div class="label">Pedidos Hoje</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon">💰</div>
+                            <div class="value">R$ 2.4k</div>
+                            <div class="label">Faturamento</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon">⭐</div>
+                            <div class="value">4.8</div>
+                            <div class="label">Avaliação</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-orders">
+                        <div class="orders-header">
+                            <h6>Pedidos Recentes</h6>
+                            <span>Ver todos →</span>
+                        </div>
+                        <div class="order-item">
+                            <div class="order-info">
+                                <div class="order-avatar">JC</div>
+                                <div class="order-details">
+                                    <small>#1847 • há 2 min</small>
+                                    <span>João Carlos</span>
+                                </div>
+                            </div>
+                            <span class="order-status pending">Preparando</span>
+                        </div>
+                        <div class="order-item">
+                            <div class="order-info">
+                                <div class="order-avatar">MS</div>
+                                <div class="order-details">
+                                    <small>#1846 • há 8 min</small>
+                                    <span>Maria Santos</span>
+                                </div>
+                            </div>
+                            <span class="order-status ready">Pronto</span>
+                        </div>
+                        <div class="order-item">
+                            <div class="order-info">
+                                <div class="order-avatar">PL</div>
+                                <div class="order-details">
+                                    <small>#1845 • há 15 min</small>
+                                    <span>Pedro Lima</span>
+                                </div>
+                            </div>
+                            <span class="order-status ready">Entregue</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="seller-text">
+                <span class="section-tag">🏪 Para Vendedores</span>
+                <h2>Gerencie sua <span>padaria</span> com facilidade</h2>
+                <p>Painel completo para gerenciar pedidos, produtos, estoque, faturamento e muito mais. Tudo em tempo real.</p>
+                
+                <div class="seller-features">
+                    <div class="seller-feature">
+                        <div class="seller-feature-icon">📊</div>
+                        <div>
+                            <h4>Dashboard Completo</h4>
+                            <p>Métricas e relatórios em tempo real</p>
+                        </div>
+                    </div>
+                    <div class="seller-feature">
+                        <div class="seller-feature-icon">📦</div>
+                        <div>
+                            <h4>Gestão de Pedidos</h4>
+                            <p>Organize e acompanhe cada pedido</p>
+                        </div>
+                    </div>
+                    <div class="seller-feature">
+                        <div class="seller-feature-icon">🏷️</div>
+                        <div>
+                            <h4>Catálogo Digital</h4>
+                            <p>Cadastre e gerencie seus produtos</p>
+                        </div>
+                    </div>
+                    <div class="seller-feature">
+                        <div class="seller-feature-icon">💵</div>
+                        <div>
+                            <h4>Faturamento</h4>
+                            <p>Controle financeiro simplificado</p>
+                        </div>
+                    </div>
+                    <div class="seller-feature">
+                        <div class="seller-feature-icon">📣</div>
+                        <div>
+                            <h4>Notificações Push</h4>
+                            <p>Alertas instantâneos de novos pedidos</p>
+                        </div>
+                    </div>
+                    <div class="seller-feature">
+                        <div class="seller-feature-icon">💬</div>
+                        <div>
+                            <h4>Chat com Clientes</h4>
+                            <p>Comunicação direta e eficiente</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="how-it-works" id="como-funciona">
+        <div class="section-header">
+            <span class="section-tag">🔄 Como Funciona</span>
+            <h2>Simples assim</h2>
+            <p>Em apenas 3 passos você tem os melhores produtos de padaria na sua casa</p>
+        </div>
+
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number"><span>1</span></div>
+                <h3>Baixe o App</h3>
+                <p>Disponível gratuitamente na App Store e Google Play</p>
+            </div>
+            <div class="step">
+                <div class="step-number"><span>2</span></div>
+                <h3>Escolha & Peça</h3>
+                <p>Explore padarias próximas e faça seu pedido personalizado</p>
+            </div>
+            <div class="step">
+                <div class="step-number"><span>3</span></div>
+                <h3>Receba em Casa</h3>
+                <p>Acompanhe em tempo real e receba quentinho na sua porta</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="download">
+        <div class="cta-content">
+            <h2>Comece agora a usar o <span>Zé Padoca</span></h2>
+            <p>Junte-se a milhares de pessoas que já descobriram a forma mais gostosa de pedir padaria</p>
+            
+            <div class="cta-buttons">
+                <a href="#" class="cta-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                    <div class="cta-button-text">
+                        <small>Baixar na</small>
+                        <strong>App Store</strong>
+                    </div>
+                </a>
+                <a href="#" class="cta-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+                    </svg>
+                    <div class="cta-button-text">
+                        <small>Disponível no</small>
+                        <strong>Google Play</strong>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">🥖</div>
+                    <span>Zé Padoca</span>
+                </div>
+                <p>Conectando você às melhores padarias da sua região. Praticidade, qualidade e sabor em cada entrega.</p>
+            </div>
+
+            <div class="footer-column">
+                <h4>Produto</h4>
+                <ul>
+                    <li><a href="#">Funcionalidades</a></li>
+                    <li><a href="#">Para Clientes</a></li>
+                    <li><a href="#">Para Vendedores</a></li>
+                    <li><a href="#">Preços</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Empresa</h4>
+                <ul>
+                    <li><a href="#">Sobre Nós</a></li>
+                    <li><a href="#">Carreiras</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contato</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Suporte</h4>
+                <ul>
+                    <li><a href="#">Central de Ajuda</a></li>
+                    <li><a href="#">Termos de Uso</a></li>
+                    <li><a href="#">Privacidade</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 Zé Padoca. Todos os direitos reservados.</p>
+            <div class="footer-social">
+                <a href="#">📘</a>
+                <a href="#">📸</a>
+                <a href="#">🐦</a>
+                <a href="#">💼</a>
+            </div>
         </div>
     </footer>
 
-    <div id="messageModal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close-button" onclick="closeModal()">&times;</span>
-            <p id="modalMessageText"></p>
-            <button onclick="closeModal()"
-                class="mt-4 primary-bg hover:bg-opacity-80 text-white font-semibold py-2 px-4 rounded-lg">OK</button>
-        </div>
-    </div>
-
     <script>
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        // Custom Cursor
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorRing = document.querySelector('.cursor-ring');
 
-        // Elementos do DOM para a funcionalidade Gemini
-        const eventTypeInput = document.getElementById('eventType');
-        const guestCountInput = document.getElementById('guestCount');
-        const preferencesInput = document.getElementById('preferences');
-        const generateIdeasButton = document.getElementById('generateIdeasButton');
-        const ideasResultDiv = document.getElementById('ideasResult');
-        const geminiResponseP = document.getElementById('geminiResponse');
-        const mainSpinner = document.getElementById('spinner'); // Spinner principal da seção
-        const buttonSpinner = document.getElementById('buttonSpinner'); // Spinner do botão
+        let mouseX = 0, mouseY = 0;
+        let ringX = 0, ringY = 0;
 
-        // Modal
-        const messageModal = document.getElementById('messageModal');
-        const modalMessageText = document.getElementById('modalMessageText');
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+        });
 
-        function showModal(message) {
-            modalMessageText.textContent = message;
-            messageModal.style.display = 'block';
+        function animateCursor() {
+            ringX += (mouseX - ringX) * 0.15;
+            ringY += (mouseY - ringY) * 0.15;
+            cursorRing.style.left = ringX + 'px';
+            cursorRing.style.top = ringY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Hover effects on links
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorRing.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursorRing.style.borderColor = 'var(--secondary)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorRing.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursorRing.style.borderColor = 'var(--primary)';
+            });
+        });
+
+        // Hide cursor on mobile
+        if ('ontouchstart' in window) {
+            cursorDot.style.display = 'none';
+            cursorRing.style.display = 'none';
         }
 
-        function closeModal() {
-            messageModal.style.display = 'none';
-        }
-
-        // Fecha o modal se o usuário clicar fora dele
-        window.onclick = function (event) {
-            if (event.target == messageModal) {
-                closeModal();
+        // Navigation scroll effect
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
             }
-        }
+        });
 
-        generateIdeasButton.addEventListener('click', async () => {
-            const eventType = eventTypeInput.value.trim();
-            const guestCount = guestCountInput.value.trim();
-            const preferences = preferencesInput.value.trim();
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
 
-            if (!eventType || !guestCount) {
-                showModal("Por favor, preencha o tipo de evento e o número de convidados.");
-                return;
-            }
-
-            // Mostrar spinners e desabilitar botão
-            mainSpinner.style.display = 'block';
-            buttonSpinner.classList.remove('hidden');
-            generateIdeasButton.disabled = true;
-            ideasResultDiv.classList.add('hidden'); // Esconder resultados anteriores
-            geminiResponseP.textContent = ''; // Limpar texto anterior
-
-            const prompt = `Você é um assistente de planejamento de festas para uma padaria delivery chamada Zé Padoca.
-Um cliente está planejando um(a) "${eventType}" para ${guestCount} pessoas.
-As preferências do cliente são: "${preferences || 'Nenhuma preferência específica'}".
-Sugira uma lista de itens de padaria (bolos, doces diversos, salgados variados, pães especiais, bebidas como sucos naturais ou refrigerantes) e quantidades aproximadas que seriam adequadas para este evento.
-Apresente as sugestões de forma organizada, amigável e apetitosa, talvez com categorias.
-No final, mencione que todos os itens sugeridos podem ser encontrados e encomendados através do aplicativo Zé Padoca.
-Seja criativo e útil!`;
-
-            const apiKey = ""; // DEIXE EM BRANCO. A CHAVE SERÁ FORNECIDA AUTOMATICAMENTE NO AMBIENTE DE EXECUÇÃO.
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-            let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-            const payload = { contents: chatHistory };
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error("Erro da API Gemini:", errorData);
-                    showModal(`Erro ao gerar sugestões: ${errorData.error?.message || response.statusText}. Tente novamente mais tarde.`);
-                    return;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
+            });
+        }, observerOptions);
 
-                const result = await response.json();
+        // Observe feature cards
+        document.querySelectorAll('.feature-card').forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.1}s`;
+            observer.observe(card);
+        });
 
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    const text = result.candidates[0].content.parts[0].text;
-                    geminiResponseP.textContent = text;
-                    ideasResultDiv.classList.remove('hidden');
-                } else {
-                    console.error("Resposta inesperada da API Gemini:", result);
-                    showModal("Não foi possível obter sugestões no momento. A resposta da IA estava vazia ou malformada.");
+        // Observe benefit items
+        document.querySelectorAll('.benefit-item').forEach((item, index) => {
+            item.style.transitionDelay = `${index * 0.15}s`;
+            observer.observe(item);
+        });
+
+        // Observe seller features
+        document.querySelectorAll('.seller-feature').forEach((feature, index) => {
+            feature.style.transitionDelay = `${index * 0.1}s`;
+            observer.observe(feature);
+        });
+
+        // Observe steps
+        document.querySelectorAll('.step').forEach((step, index) => {
+            step.style.transitionDelay = `${index * 0.2}s`;
+            observer.observe(step);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
+            });
+        });
 
-            } catch (error) {
-                console.error("Erro ao chamar a API Gemini:", error);
-                showModal("Ocorreu um erro de conexão ao tentar gerar as sugestões. Verifique sua internet e tente novamente.");
-            } finally {
-                // Esconder spinners e reabilitar botão
-                mainSpinner.style.display = 'none';
-                buttonSpinner.classList.add('hidden');
-                generateIdeasButton.disabled = false;
+        // Parallax effect on hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-content');
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+                hero.style.opacity = 1 - (scrolled / window.innerHeight);
             }
         });
     </script>
-
 </body>
-
 </html>
